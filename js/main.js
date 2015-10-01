@@ -20,7 +20,12 @@ function handleFile() {
         var rows = text.split('\n');
         // remove commas within quotes text
         console.log("There are: " + rows.length + " rows.");
-        
+        for (var m = 0; m < rows.length; m++){
+            if(m == 1) {
+                console.log(rows[m]);
+            }
+        }
+
         // go through each row
         //for (var m = 0; m < rows.length; m++){
             // go through each element of each row
@@ -31,9 +36,9 @@ function handleFile() {
         //}
         //console.log(parsed);
         // split on each comma to find all columns
-        for (var i = 0; i < rows.length; i++){
-            cols[i] = rows[i].split(',');
-        }
+        //for (var i = 0; i < rows.length; i++){
+        //    cols[i] = rows[i].split(',');
+        //}
         //console.log(cols[1][400]);
         //console.log(cols[1].length);
     };

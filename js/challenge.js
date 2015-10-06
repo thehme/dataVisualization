@@ -57,13 +57,20 @@ $(function(){
             debugger;
         },
         procData:function() {
-            console.log(this);
-            for(var i=0; i < this.hdata.length; i++){
-                this.hdata.models[i].set({'percentUninsured': (this.hdata.models[i].attributes.number_uninsured/this.hdata.models[i].attributes.population)*100});
-                this.hdata.models[i].set({'percentInsured': (this.hdata.models[i].attributes.number_insured/this.hdata.models[i].attributes.population)*100});
-            }
+            //console.log(this);
+            //each method provided by underscore.js
+            this.hdata.each(function(model){
+                //console.log((model.attributes.number_uninsured/model.attributes.population)*100);
+                model.set({'percentUninsured': (model.attributes.number_uninsured/model.attributes.population)*100});
+                model.set({'percentInsured': (model.attributes.number_insured/model.attributes.population)*100});
+            },this);
+            //for(var i=0; i < this.hdata.length; i++){
+              //  this.hdata.models[i].set({'percentUninsured': (this.hdata.models[i].attributes.number_uninsured/this.hdata.models[i].attributes.population)*100});
+              //  this.hdata.models[i].set({'percentInsured': (this.hdata.models[i].attributes.number_insured/this.hdata.models[i].attributes.population)*100});
+            //}
         },
         render: function(){
+
             $('#container').highcharts({
                 title: {
                     text: 'Private Health Insurance Levels By State',

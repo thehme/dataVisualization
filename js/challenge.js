@@ -70,6 +70,12 @@ $(function(){
             //}
         },
         render: function(){
+            // Create array from collection name attributes
+            var xlabels = new Array();
+            this.hdata.each(function(model){
+                xlabels.push(model.get('name'));
+            },this);
+            console.log(xlabels);
 
             $('#container').highcharts({
                 title: {
@@ -77,7 +83,13 @@ $(function(){
                     x: -20 //center
                 },
                 xAxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    categories: xlabels,
+
+                    // to rotate xlabels
+                    labels: {
+                        rotation: 70
+                    }
                 },
                 yAxis: {
                     title: {

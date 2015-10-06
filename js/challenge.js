@@ -15,7 +15,7 @@ $(function(){
 
         },
         parse:function(response) {
-            debugger;
+            //debugger;
             return response.data;
         }
     });
@@ -35,14 +35,14 @@ $(function(){
 
         },
         parse:function(response) {
-            debugger;
+            //debugger;
             return response.states.state;
         }
     });
 
     var appView = Backbone.View.extend({
         initialize:function() {
-            debugger;
+            //debugger;
             this.states = new States();
             this.states.bind('sync',this.procStates,this);
             this.states.fetch();
@@ -54,7 +54,7 @@ $(function(){
 
         },
         procStates:function() {
-            debugger;
+            //debugger;
         },
         procData:function() {
             //console.log(this);
@@ -75,7 +75,23 @@ $(function(){
             this.hdata.each(function(model){
                 xlabels.push(model.get('name'));
             },this);
-            console.log(xlabels);
+            //console.log(xlabels);
+
+            var statePopulation = new Array();
+            this.hdata.each(function(model){
+                //console.log(model.get('population'));
+                statePopulation.push(model.get('population'));
+            },this);
+
+            var stateInsured = new Array();
+            this.hdata.each(function(model){
+                stateInsured.push(model.get('number_insured'))
+            }, this);
+
+            var stateUninsured = new Array();
+            this.hdata.each(function(model){
+                stateUninsured.push(model.get('number_uninsured'))
+            }, this);
 
             $('#container').highcharts({
                 title: {
@@ -85,6 +101,10 @@ $(function(){
                 xAxis: {
                     // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                     categories: xlabels,
+                    //type: 'category',
+                    //crop: false,
+                    //overflow: 'none',
+                    //tickInterval: 1,
 
                     // to rotate xlabels
                     labels: {
@@ -109,16 +129,19 @@ $(function(){
                 },
                 series: [{
                     name: 'Population',
-                    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+                    data: statePopulation,
+                    type: 'spline'
                 }, {
                     name: 'Insured',
-                    data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+                    data: stateInsured,
+                    type: 'spline'
                 }, {
                     name: 'Uninsured',
-                    data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+                    data: stateUninsured,
+                    type: 'spline'
                 }]
             });
-            debugger;
+            //debugger;
         }
 
     });

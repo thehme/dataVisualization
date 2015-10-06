@@ -42,7 +42,7 @@ $(function(){
 
     var appView = Backbone.View.extend({
         initialize:function() {
-            //debugger;
+            debugger;
             this.states = new States();
             this.states.bind('sync',this.procStates,this);
             this.states.fetch();
@@ -111,7 +111,7 @@ $(function(){
 
                     // to rotate xlabels
                     labels: {
-                        rotation: 70
+                        rotation: 320
                     }
                 },
                 yAxis: {

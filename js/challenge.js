@@ -58,7 +58,8 @@ $(function(){
         procData:function() {
             console.log(this);
             for(var i=0; i < this.hdata.length; i++){
-                this.hdata.models[i].set({'percentUninsured': (this.hdata.models[i].attributes.number_insured/this.hdata.models[i].attributes.population)*100});
+                this.hdata.models[i].set({'percentUninsured': (this.hdata.models[i].attributes.number_uninsured/this.hdata.models[i].attributes.population)*100});
+                this.hdata.models[i].set({'percentInsured': (this.hdata.models[i].attributes.number_insured/this.hdata.models[i].attributes.population)*100});
             }
             debugger;
         }

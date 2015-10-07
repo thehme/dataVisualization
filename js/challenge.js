@@ -75,20 +75,42 @@ $(function(){
         },
         render: function(){
             // Create array from collection's name attributes
-            var xlabels = new Array();
+            //var xlabels = new Array();
+            var plotData = [];
             // Create array from collection's population attributes
-            var statePopulation = new Array();
+            //var statePopulation = new Array();
             // Create array from collection's number insured attributes
-            var stateInsured = new Array();
+            //var stateInsured = new Array();
             // Create array from collection's number uninsured attributes
-            var stateUninsured = new Array();
+            //var stateUninsured = new Array();
             
             this.hdata.each(function(model){
-                xlabels.push(model.get('name'));
-                statePopulation.push(model.get('population'));
-                stateInsured.push(model.get('number_insured'))
-                stateUninsured.push(model.get('number_uninsured'))
+                //xlabels.push(model.get('name'));
+                plotData.push({
+                    xlabel: model.get('name'),
+                    statePop: model.get('population'),
+                    stateIns: model.get('number_insured'),
+                    stateUnins: model.get('number_uninsured')
+                });
+                //statePopulation.push(model.get('population'));
+                //stateInsured.push(model.get('number_insured'))
+                //stateUninsured.push(model.get('number_uninsured'))
             },this);
+
+            //console.log(plotData);
+            plotData.sort(function(a,b){
+                //console.log(a);
+                //console.log(a.statePop);
+                //console.log(typeof(a.population));
+                if(a.statePop < b.statePop){
+                    return 1;
+                }
+                if(a.statePop > b.statePop){
+                    return -1;
+                } 
+                return 0;
+            });
+            console.log(plotData);
             
             $('#container').highcharts({
                 title: {
@@ -97,7 +119,8 @@ $(function(){
                 },
                 xAxis: {
                     // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                    categories: xlabels,
+                    //categories: xlabels,
+                    categories: plotData.map(function(obj) { return obj.xlabel; }),
                     //type: 'category',
                     //crop: false,
                     //overflow: 'none',
@@ -126,15 +149,15 @@ $(function(){
                 },
                 series: [{
                     name: 'Population',
-                    data: statePopulation,
+                    data: plotData.map(function(obj) { return obj.statePop; }),
                     type: 'spline'
                 }, {
                     name: 'Insured',
-                    data: stateInsured,
+                    data: plotData.map(function(obj) { return obj.stateIns; }),
                     type: 'spline'
                 }, {
                     name: 'Uninsured',
-                    data: stateUninsured,
+                    data: plotData.map(function(obj) { return obj.stateUnins; }),
                     type: 'spline'
                 }]
             });

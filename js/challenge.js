@@ -56,7 +56,6 @@ $(function(){
                     _this.render();
                 }
             }); 
-
         },
         procStates:function() {
             //debugger;
@@ -77,30 +76,20 @@ $(function(){
         render: function(){
             // Create array from collection's name attributes
             var xlabels = new Array();
-            this.hdata.each(function(model){
-                xlabels.push(model.get('name'));
-            },this);
-            //console.log(xlabels);
-
             // Create array from collection's population attributes
             var statePopulation = new Array();
-            this.hdata.each(function(model){
-                //console.log(model.get('population'));
-                statePopulation.push(model.get('population'));
-            },this);
-
             // Create array from collection's number insured attributes
             var stateInsured = new Array();
-            this.hdata.each(function(model){
-                stateInsured.push(model.get('number_insured'))
-            }, this);
-
             // Create array from collection's number uninsured attributes
             var stateUninsured = new Array();
+            
             this.hdata.each(function(model){
+                xlabels.push(model.get('name'));
+                statePopulation.push(model.get('population'));
+                stateInsured.push(model.get('number_insured'))
                 stateUninsured.push(model.get('number_uninsured'))
-            }, this);
-
+            },this);
+            
             $('#container').highcharts({
                 title: {
                     text: 'Private Health Insurance Levels By State',

@@ -42,15 +42,20 @@ $(function(){
 
     var appView = Backbone.View.extend({
         initialize:function() {
-            debugger;
+            var _this = this;
+
+            //debugger;
             this.states = new States();
             this.states.bind('sync',this.procStates,this);
             this.states.fetch();
 
             this.hdata = new Data();
             this.hdata.bind('sync',this.procData,this);
-            this.hdata.fetch(); 
-            this.render();
+            this.hdata.fetch({
+                success: function() {
+                    _this.render();
+                }
+            }); 
 
         },
         procStates:function() {

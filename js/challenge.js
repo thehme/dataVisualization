@@ -110,9 +110,10 @@ $(function(){
                 } 
                 return 0;
             });
-            console.log(plotData);
+            //console.log(plotData);
             
-            $('#container').highcharts({
+            // HIGHCHARTS MAP
+            $('#container1').highcharts({
                 title: {
                     text: 'Private Health Insurance Levels By State',
                     x: -20 //center
@@ -162,6 +163,67 @@ $(function(){
                 }]
             });
             //debugger;
+            //STACKED PLOT
+            $('#container2').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Private Health Insurance Levels By State'
+                },
+                xAxis: {
+                    categories: plotData.map(function(obj) { return obj.xlabel; }),
+                    labels: {
+                        rotation: 320
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Population (Millions)'
+                    },
+                    stackLabels: {
+                        style: {
+                            fontWeight: 'bold',
+                            color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                        }
+                    }
+                },
+                legend: {
+                    align: 'right',
+                    x: -30,
+                    verticalAlign: 'top',
+                    y: 25,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                    borderColor: '#CCC',
+                    borderWidth: 1,
+                    shadow: false
+                },
+                tooltip: {
+                    headerFormat: '<b>{point.x}</b><br/>',
+                    pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: false,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                            style: {
+                                textShadow: '0 0 3px black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Insured',
+                    data: plotData.map(function(obj) { return obj.stateIns; })
+                }, {
+                    name: 'Uninsured',
+                    data: plotData.map(function(obj) { return obj.stateUnins; })
+                }]
+            });
         }
 
     });

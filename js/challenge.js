@@ -166,7 +166,8 @@ $(function(){
             //STACKED PLOT
             $('#container2').highcharts({
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    height: 700
                 },
                 title: {
                     text: 'Private Health Insurance Levels By State'

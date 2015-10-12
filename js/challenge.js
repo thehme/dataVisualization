@@ -43,6 +43,7 @@ $(function(){
     var appView = Backbone.View.extend({
         initialize:function() {
             var _this = this;
+            var mapCanvas = document.getElementById('map');
 
             //debugger;
             this.states = new States();
@@ -56,6 +57,13 @@ $(function(){
                     _this.render();
                 }
             }); 
+
+            var mapOptions = {
+                center: new google.maps.LatLng(38, -95),
+                zoom: 4,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            var map = new google.maps.Map(mapCanvas, mapOptions);
         },
         procStates:function() {
             //debugger;

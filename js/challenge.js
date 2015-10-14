@@ -43,7 +43,7 @@ $(function(){
     var appView = Backbone.View.extend({
         initialize:function() {
             var _this = this;
-            var mapCanvas = document.getElementById('map');
+            
 
             //debugger;
             this.states = new States();
@@ -57,16 +57,26 @@ $(function(){
                     _this.render();
                 }
             }); 
-
-            var mapOptions = {
-                center: new google.maps.LatLng(38, -95),
-                zoom: 4,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            }
-            var map = new google.maps.Map(mapCanvas, mapOptions);
         },
         procStates:function() {
             //debugger;
+            //state data contains state outline polygons
+            //but they are not yet in the format required for google maps
+            //convert the polygons here to lat/long object collections
+            var polygons = new Array();
+            this.states.each(function(s){
+
+                var p = {
+                    name:s.get('name'),
+                    poly:[]
+                };
+
+                _.each(s.get('point'),function(ll){
+                    p.poly.push({lat:parseFloat(ll.lat),lng:parseFloat(ll.lng)});
+                },this);
+                polygons.push(p);
+            },this);
+            this.makeMap(polygons);
         },
         procData:function() {
             //console.log(this);
@@ -233,8 +243,28 @@ $(function(){
                     data: plotData.map(function(obj) { return obj.stateUnins; })
                 }]
             });
+        },
+        makeMap:function(polygons) {
+            //once we have state outlines in polygons we can make a map
+            //google map will not load until the html document [DOM]
+            //is ready to receive content and fully loaded - so we do document.ready
+            //the use of document.ready changes context so we need to use that=this
+            //to store the parent context and can access it inside document.ready
+            //which is an anonymous closure
+            var _this = this;
+            //map code goes here
+            $(document).ready(function() {
+                //alert("Here!");
+                var mapCanvas = document.getElementById('map');
+                var mapOptions = {
+                    center: new google.maps.LatLng(38, -95),
+                    zoom: 4,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+                var map = new google.maps.Map(mapCanvas, mapOptions);
+                console.log(map);
+            });
         }
-
     });
 
     var App = new appView;

@@ -76,6 +76,7 @@ $(function(){
                 },this);
                 polygons.push(p);
             },this);
+            console.log(polygons);
             this.makeMap(polygons);
         },
         procData:function() {
@@ -252,17 +253,84 @@ $(function(){
             //to store the parent context and can access it inside document.ready
             //which is an anonymous closure
             var _this = this;
+            //console.log(_this);
             //map code goes here
             $(document).ready(function() {
                 //alert("Here!");
-                var mapCanvas = document.getElementById('map');
-                var mapOptions = {
-                    center: new google.maps.LatLng(38, -95),
+                // var mapCanvas = document.getElementById('map');
+                // var mapOptions = {
+                //     center: new google.maps.LatLng(38, -95),
+                //     zoom: 4,
+                //     mapTypeId: google.maps.MapTypeId.ROADMAP
+                // }
+                // var map = new google.maps.Map(mapCanvas, mapOptions);
+
+                map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 4,
+                    center: {lat: 38, lng: -95},
                     mapTypeId: google.maps.MapTypeId.ROADMAP
-                }
-                var map = new google.maps.Map(mapCanvas, mapOptions);
-                console.log(map);
+                });
+
+                //console.log(polygons[0].poly);
+                // Construct the polygon.
+
+                polygons.forEach(function (element, index, array) {
+                    statePolygon = new google.maps.Polygon({
+                        paths: element.poly,
+                        //paths: polygons,
+                        //console.log(paths);
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 3,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35
+                    })
+                    statePolygon.setMap(map);
+                });
+                // var statePolygon = new google.maps.Polygon({
+                //      paths: polygons[0].poly,
+                //      //paths: polygons,
+                //      //console.log(paths);
+                //      strokeColor: '#FF0000',
+                //      strokeOpacity: 0.8,
+                //      strokeWeight: 3,
+                //      fillColor: '#FF0000',
+                //      fillOpacity: 0.35
+
+                // });
+                //debugger;
+                //console.log(_this);
+                //statePolygon.setMap(map);
+                
+                // // Add a listener for the click event.
+                // bermudaTriangle.addListener('click', showArrays);
+
+                // infoWindow = new google.maps.InfoWindow;
+
+                // /** @this {google.maps.Polygon} */
+                // function showArrays(event) {
+                //   // Since this polygon has only one path, we can call getPath() to return the
+                //   // MVCArray of LatLngs.
+                //   var vertices = this.getPath();
+
+                //   var contentString = '<b>Bermuda Triangle polygon</b><br>' +
+                //       'Clicked location: <br>' + event.latLng.lat() + ',' + event.latLng.lng() +
+                //       '<br>';
+
+                //   // Iterate over the vertices.
+                //   for (var i =0; i < vertices.getLength(); i++) {
+                //     var xy = vertices.getAt(i);
+                //     contentString += '<br>' + 'Coordinate ' + i + ':<br>' + xy.lat() + ',' +
+                //         xy.lng();
+                //   }
+
+                //   // Replace the info window's content and position.
+                //   infoWindow.setContent(contentString);
+                //   infoWindow.setPosition(event.latLng);
+
+                //   infoWindow.open(map);
+                // }
+                //console.log(map);
             });
         }
     });
